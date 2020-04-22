@@ -16,46 +16,53 @@ import javax.validation.constraints.NotBlank;
 @Table(name = "gen_config")
 public class GenConfig {
 
-    public GenConfig(String tableName) {
-        this.cover = false;
-        this.moduleName = "eladmin-system";
-        this.tableName = tableName;
-    }
+	public GenConfig(String tableName) {
+		this.cover = true;
+		this.moduleName = "eladmin-system";
+		this.tableName = tableName;
+		String[] tableArray = tableName.toLowerCase().split("_");
+		this.path = String.format("%s/%s",tableArray[0],tableArray[1]);
+		this.pack = String.format("me.zhengjie.modules.%s.%s",tableArray[0],tableArray[1]);
+		this.apiPath = String.format("%s/%s",tableArray[0],tableArray[1]);
+		this.apiAlias = tableArray[1];
+		this.prefix =  tableArray[0];
+		this.author = "generator";
+	}
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
+	private Long id;
 
-    @NotBlank
-    private String tableName;
+	@NotBlank
+	private String tableName;
 
-    /** 接口名称 **/
-    private String apiAlias;
+	/** 接口名称 **/
+	private String apiAlias;
 
-    /** 包路径 */
-    @NotBlank
-    private String pack;
+	/** 包路径 */
+	@NotBlank
+	private String pack;
 
-    /** 模块名 */
-    @Column(name = "module_name")
-    @NotBlank
-    private String moduleName;
+	/** 模块名 */
+	@Column(name = "module_name")
+	@NotBlank
+	private String moduleName;
 
-    /** 前端文件路径 */
-    @NotBlank
-    private String path;
+	/** 前端文件路径 */
+	@NotBlank
+	private String path;
 
-    /** 前端文件路径 */
-    @Column(name = "api_path")
-    private String apiPath;
+	/** 前端文件路径 */
+	@Column(name = "api_path")
+	private String apiPath;
 
-    /** 作者 */
-    private String author;
+	/** 作者 */
+	private String author;
 
-    /** 表前缀 */
-    private String prefix;
+	/** 表前缀 */
+	private String prefix;
 
-    /** 是否覆盖 */
-    private Boolean cover;
+	/** 是否覆盖 */
+	private Boolean cover;
 }

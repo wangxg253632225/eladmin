@@ -51,6 +51,12 @@ public interface ${className}Service {
     void update(${className} resources);
 
     /**
+    * 删除
+    * @param ${pkChangeColName} /
+    */
+    void delete(${pkColumnType} ${pkChangeColName});
+
+    /**
     * 多选删除
     * @param ids /
     */

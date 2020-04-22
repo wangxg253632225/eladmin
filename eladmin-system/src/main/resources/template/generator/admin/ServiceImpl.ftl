@@ -87,10 +87,10 @@ public class ${className}ServiceImpl implements ${className}Service {
     public ${className}Dto create(${className} resources) {
 <#if !auto && pkColumnType = 'Long'>
         Snowflake snowflake = IdUtil.createSnowflake(1, 1);
-        resources.set${pkCapitalColName}(snowflake.nextId()); 
+        resources.set${pkCapitalColName}(snowflake.nextId());
 </#if>
 <#if !auto && pkColumnType = 'String'>
-        resources.set${pkCapitalColName}(IdUtil.simpleUUID()); 
+        resources.set${pkCapitalColName}(IdUtil.simpleUUID());
 </#if>
 <#if columns??>
     <#list columns as column>
@@ -127,11 +127,19 @@ public class ${className}ServiceImpl implements ${className}Service {
         ${changeClassName}Repository.save(${changeClassName});
     }
 
+
+    @Override
+    //@CacheEvict(allEntries = true)
+    @Transactional(rollbackFor = Exception.class)
+    public void delete(${pkColumnType} ${pkChangeColName}) {
+        ${changeClassName}Repository.deleteById(${pkChangeColName});
+    }
+
     @Override
     //@CacheEvict(allEntries = true)
     public void deleteAll(${pkColumnType}[] ids) {
         for (${pkColumnType} id : ids) {
-            ${changeClassName}Repository.deleteById(${pkChangeColName});
+            ${changeClassName}Repository.deleteById(id);
         }
     }
 
