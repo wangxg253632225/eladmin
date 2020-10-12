@@ -188,13 +188,12 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public Set<Menu> getDeleteMenus(List<Menu> menuList, Set<Menu> menuSet) {
-        // 递归找出待删除的菜单
-        for (Menu menu1 : menuList) {
-            menuSet.add(menu1);
-            List<Menu> menus = menuRepository.findByPid(menu1.getId());
-            if (menus != null && menus.size() != 0) {
-                getDeleteMenus(menus, menuSet);
+    public Set<Menu> getChildMenus(List<Menu> menuList, Set<Menu> menuSet) {
+        for (Menu menu : menuList) {
+            menuSet.add(menu);
+            List<Menu> menus = menuRepository.findByPid(menu.getId());
+            if(menus!=null && menus.size()!=0){
+                getChildMenus(menus, menuSet);
             }
         }
         return menuSet;
